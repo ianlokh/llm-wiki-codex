@@ -1,0 +1,9 @@
+# Profile: wiki-lint  (Requirement 4 — linting agent)
+# Install as: ~/.codex/wiki-lint.config.toml
+# Use with:   codex --profile wiki-lint
+#
+# Read-only: the linter audits and reports findings. It structurally cannot
+# modify the corpus. To apply fixes, re-run under the wiki-ingest profile.
+
+sandbox_mode = "read-only"
+approval_policy = "on-request"

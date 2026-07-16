@@ -1,0 +1,1 @@
+../../../.agents/skills/wiki-lint/SKILL.md

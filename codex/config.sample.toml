@@ -1,0 +1,35 @@
+# Codex reads configuration from $CODEX_HOME (default ~/.codex/config.toml),
+# NOT from this repository. Merge the keys below into ~/.codex/config.toml
+# (or symlink this file). Restart Codex after changes.
+
+# ── Closed-world enforcement (Requirement 3) ──────────────────────────────
+# Hard-disable outbound network inside the sandbox. The agent CANNOT reach the
+# internet even if instructed to. AGENTS.md is the secondary, softer control.
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+network_access = false
+
+# ── Project-scoped skills, explicitly registered (Requirement 1) ──────────
+# Skills in .agents/skills/ are auto-discovered by location; these entries pin
+# them ON. Adjust the absolute paths if you clone the repo elsewhere.
+[[skills.config]]
+path = "/Users/ianlo/Documents/Development/llm-wiki-codex/.agents/skills/wiki-ingest/SKILL.md"
+enabled = true
+
+[[skills.config]]
+path = "/Users/ianlo/Documents/Development/llm-wiki-codex/.agents/skills/wiki-lint/SKILL.md"
+enabled = true
+
+[[skills.config]]
+path = "/Users/ianlo/Documents/Development/llm-wiki-codex/.agents/skills/wiki-query/SKILL.md"
+enabled = true
+
+# ── Subagents / one-session orchestration (Requirement 4, subagent model) ──
+# Caps for how many role workers the orchestrator may run at once, and how deep
+# they may nest. max_depth = 1 stops a subagent from recursively spawning more.
+# The role definitions themselves live in .codex/agents/{wiki-ingest,wiki-lint,
+# wiki-query}.toml and are project-scoped (auto-discovered).
+[agents]
+max_threads = 3
+max_depth = 1

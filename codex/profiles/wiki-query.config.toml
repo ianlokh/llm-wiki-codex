@@ -1,0 +1,9 @@
+# Profile: wiki-query  (Requirement 4 — query agent)
+# Install as: ~/.codex/wiki-query.config.toml
+# Use with:   codex --profile wiki-query
+#
+# Read-only and no network: the query agent can only read the wiki and answer.
+# It cannot write, browse, or reach any source outside the repository.
+
+sandbox_mode = "read-only"
+approval_policy = "never"

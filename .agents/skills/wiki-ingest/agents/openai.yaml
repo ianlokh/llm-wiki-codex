@@ -1,0 +1,3 @@
+# Role isolation: this skill runs only when explicitly invoked, so it never
+# auto-fires during a lint or query task.
+allow_implicit_invocation: false

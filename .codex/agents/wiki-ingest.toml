@@ -1,0 +1,14 @@
+# Codex subagent: ingestion worker
+# Spawned by the orchestrator when explicitly asked to ingest material.
+# Network stays unreachable via the GLOBAL sandbox setting in ~/.codex/config.toml
+# (sandbox_workspace_write.network_access = false), which covers every subagent.
+name = "wiki-ingest"
+description = "Ingest approved inbox/ material into the local wiki as cited articles plus source records. Use only when explicitly asked to ingest; never to answer questions or browse."
+developer_instructions = "Follow .agents/skills/wiki-ingest/SKILL.md exactly. Accept only material in inbox/ or supplied directly in the task; never fetch a URL or use outside knowledge. Record provenance in wiki/sources/, write the article in wiki/articles/ from templates/article.md, then update wiki/index.md last. Report changed paths, the provenance recorded, and every unresolved gap."
+sandbox_mode = "workspace-write"
+# model = "gpt-5-codex"           # optional: pin a model per role
+# model_reasoning_effort = "high" # optional
+
+[[skills.config]]
+path = "/Users/ianlo/Documents/Development/llm-wiki-codex/.agents/skills/wiki-ingest/SKILL.md"
+enabled = true

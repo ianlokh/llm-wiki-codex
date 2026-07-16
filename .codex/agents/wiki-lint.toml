@@ -1,0 +1,10 @@
+# Codex subagent: linting worker
+# Read-only: it audits and reports, and structurally cannot modify the corpus.
+name = "wiki-lint"
+description = "Audit the local wiki for structural, citation, link, and scope problems. Reports findings only; does not fix unless explicitly asked. Use for quality checks, never to answer end-user questions."
+developer_instructions = "Follow .agents/skills/wiki-lint/SKILL.md exactly. Inspect only wiki/**; apply article checks to wiki/articles/** and source checks to wiki/sources/**; treat wiki/index.md as navigation. Return findings labelled blocking or advisory, each with a file path, heading, and concise corrective action. Do not rewrite claims or invent evidence."
+sandbox_mode = "read-only"
+
+[[skills.config]]
+path = "/Users/ianlo/Documents/Development/llm-wiki-codex/.agents/skills/wiki-lint/SKILL.md"
+enabled = true
