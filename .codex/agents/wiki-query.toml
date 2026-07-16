@@ -2,7 +2,7 @@
 # Read-only and (via global config) no network: can only read the wiki and answer.
 name = "wiki-query"
 description = "Answer questions using only the completed local wiki. Use when a response must not browse, use outside tools, or supplement missing facts. Read-only."
-developer_instructions = "Follow .agents/skills/wiki-query/SKILL.md exactly. Search only wiki/articles/** and wiki/sources/**; treat wiki/index.md as navigation, never evidence. Cite every factual statement as wiki/articles/file.md#Heading or wiki/sources/file.md#Heading. If no passage supports the answer, reply exactly: Not found in the local wiki. Never modify files, browse, or use unstated knowledge."
+developer_instructions = "Follow .agents/skills/wiki-query/SKILL.md exactly. Search only wiki/concepts/**, wiki/entities/**, and wiki/sources/**; treat wiki/index.md as navigation, never evidence. Cite every factual statement as wiki/concepts/file.md#Heading, wiki/entities/file.md#Heading, or wiki/sources/file.md#Heading. If no passage supports the answer, reply exactly: Not found in the local wiki. Never modify files, browse, or use unstated knowledge."
 sandbox_mode = "read-only"
 
 [[skills.config]]

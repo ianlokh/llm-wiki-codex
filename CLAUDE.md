@@ -7,23 +7,34 @@ This repository is a closed, Markdown-only knowledge base. Treat `wiki/**/*.md` 
 - Do not browse the web, call external services, or consult any information outside this repository while ingesting, linting, or querying.
 - Enforcement here is by **tool gating**: the role subagents in `.claude/agents/` are granted no web tools, and the lint/query roles are granted no write tools. Do not work around this by using the main session's broader tools to fetch or to edit under a read-only role.
 - Do not fill gaps with model memory, general knowledge, or inference. If the corpus does not support an answer, say exactly: `Not found in the local wiki.`
-- Cite every substantive answer with a local path and heading, e.g. `wiki/articles/attention.md#Key ideas`.
+- Cite every substantive answer with a local path and heading, e.g. `wiki/concepts/attention.md#Key ideas`.
 - Keep the repository Markdown-only. TOML/YAML under `codex/`, `.codex/agents/`, and `.agents/skills/**/agents/`, plus the Claude Code config under `.claude/` (`settings.json` and the agent/skill definitions), are configuration, not code. Codex-provisioned system tooling under `skills/.system/` is machine-managed and git-ignored, not project content.
 
 ## Corpus contract
 
 The query surface is **evidence-only**; everything that is not citable evidence lives outside `wiki/`.
 
-- `wiki/articles/` — published articles (lowercase, hyphenated). **Citable.**
-- `wiki/sources/` — durable source records backing article claims. **Citable.**
+- `wiki/concepts/` — published pages for ideas, methods, frameworks, or topics (lowercase, hyphenated). **Citable.**
+- `wiki/entities/` — published pages for a specific named thing: a person, organization, product, tool, model, or place (lowercase, hyphenated). **Citable.**
+- `wiki/sources/` — durable source records backing page claims. **Citable.**
 - `wiki/index.md` — Map of Content, navigation only. **Never cite it.**
 - `inbox/`, `templates/`, `reports/` — outside `wiki/`. **Never evidence.**
 
-So the rule is simply: **evidence = `wiki/articles/**` and `wiki/sources/**`.**
+So the rule is simply: **evidence = `wiki/concepts/**`, `wiki/entities/**`, and `wiki/sources/**`.** `wiki/index.md` is the one in-wiki file that is never evidence.
 
-- Every published article has exactly one H1 plus one each of `## Summary`, `## Key ideas`, `## Sources`, `## Related`.
-- Every `## Sources` entry links to a record in `wiki/sources/` or another article, via relative Markdown links.
-- Make only additive or narrowly corrective edits. Update `wiki/index.md` last, one article at a time.
+- Classify each new page: a **concept** explains how an idea or method works; an **entity** describes one named thing. When unsure, prefer `concepts/` for topics and `entities/` for proper nouns that could carry an infobox.
+- Every published concept or entity page has exactly one H1 plus one each of `## Summary`, `## Key ideas`, `## Sources`, `## Related`. Both page types share this schema; the folder carries the concept/entity distinction.
+- Every `## Sources` entry links to a record in `wiki/sources/` or another published page, via relative Markdown links.
+- Make only additive or narrowly corrective edits. Update `wiki/index.md` last, one page at a time.
+
+### Fidelity and aggregation
+
+Source records are the **faithful evidence layer**, not a summary of the input. Abstraction happens on the concept/entity pages built on top — never by discarding specifics at the source. This holds for every kind of input: an article, a report, a news digest, a document, or a dataset.
+
+- **Decompose before you summarize.** Break each approved input into its distinct substantive claims *first*, and record each as its own bullet under a source record's `## What it asserts`, preserving the specifics that make it answerable — names, dates, quantities, and attribution — and its status (reported, rumored, confirmed, or established fact). Exclude non-substantive boilerplate: ads, navigation, markup, tracking, decorative captions.
+- **No material loss.** Any fact a reader could reasonably query must be recoverable from a source record. Reducing a multi-item input to topic labels ("covers hardware rumors, pricing, and litigation") produces a table of contents, not evidence, and is a defect.
+- **Match granularity to the input.** An input of N distinct items yields N claim clusters, not one. Record the input's scale and shape in the source record's `## Origin` (e.g. "a 17-story news digest", "a 200-row dataset") so that coverage is visible to a reader — and to linting, which cannot see the original input.
+- **Aggregations never become one catch-all page.** When an input bundles many distinct items (a news digest, a feed, a multi-finding report, a dataset), it becomes one source record capturing *all* items, plus a separate concept or entity page for each item substantial enough to fill the page schema. Lesser items remain citable as claims in the source record — do not manufacture thin stub pages, and do not create a single page whose `## Key ideas` is a list of unrelated topics.
 
 ## Roles and delegation (subagents)
 
@@ -35,7 +46,7 @@ Three subagents in `.claude/agents/` mirror the Codex roles. Invoke them with th
 | Linting | `wiki-lint` | Read, Glob, Grep | Read-only; reports findings |
 | Query | `wiki-query` | Read, Glob, Grep | Read-only; wiki-only answers |
 
-Ordering: ingestion must finish before linting the same article, and linting should pass before that article is queried. Only independent articles may be processed in parallel. Never point two writing subagents at the same article. Subagents must not spawn further subagents.
+Ordering: ingestion must finish before linting the same page, and linting should pass before that page is queried. Only independent pages may be processed in parallel. Never point two writing subagents at the same page. Subagents must not spawn further subagents.
 
 ## Skills
 

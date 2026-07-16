@@ -9,3 +9,20 @@ skills/.system/
 
 # Obsidian workspace config (app state, not wiki evidence)
 .obsidian/
+
+# --- Ingestion & linting artifacts (generated/test content, not checked in) ---
+# Git tracks only scaffolding (READMEs, templates, index). All ingested inbox
+# inputs and all generated wiki pages/sources/reports stay local and ignored,
+# including the backpropagation/micrograd test documents and future runs.
+
+# Raw inbox inputs (keep the README)
+inbox/*.md
+!inbox/README.md
+
+# Ingestion run reports (keep the README)
+reports/ingest-*.md
+
+# Generated wiki pages and source records
+wiki/concepts/*.md
+wiki/entities/*.md
+wiki/sources/*.md

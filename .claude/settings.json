@@ -6,7 +6,7 @@
       "WebFetch(domain:developers.openai.com)",
       "WebFetch(domain:learn.chatgpt.com)",
       "Bash(mkdir -p .agents/skills/wiki-ingest/agents .agents/skills/wiki-lint/agents .agents/skills/wiki-query/agents)",
-      "Bash(mkdir -p inbox templates reports wiki/sources wiki/articles)",
+      "Bash(mkdir -p inbox templates reports wiki/sources wiki/concepts wiki/entities)",
       "Bash(mkdir -p codex/profiles)",
       "Bash(python3 -)",
       "Bash(git remote *)",
@@ -18,7 +18,28 @@
       "Bash(grep -vE '\\\\.md$')",
       "Bash(grep -vE '^\\(codex/|\\\\.codex/agents/|\\\\.agents/skills/\\).*\\\\.\\(toml|ya?ml\\)$')",
       "Bash(grep -vE '^\\\\.gitignore$')",
-      "Bash(awk '{print $1}')"
+      "Bash(awk '{print $1}')",
+      "Read(//Users/ianlo/Downloads/llm-wiki-codex-boilerplate//**)",
+      "Read(//Users/ianlo/Downloads/llm-wiki-codex-boilerplate/wiki/**)",
+      "Bash(git -C /Users/ianlo/Downloads/llm-wiki-codex-boilerplate log --oneline -5)",
+      "Bash(echo \"=== stat the boilerplate dir ===\"; stat /Users/ianlo/Downloads/llm-wiki-codex-boilerplate 2>&1; echo \"\"; echo \"=== try reading it directly ===\"; ls -la /Users/ianlo/Downloads/ 2>&1 | head; echo \"\"; echo \"=== exit behavior ===\"; cd /Users/ianlo/Downloads/llm-wiki-codex-boilerplate 2>&1 && pwd 2>&1)",
+      "Read(//Users/ianlo/Downloads//**)",
+      "Bash(echo \"=== REF wiki tree ===\"; find /Users/ianlo/Documents/Development/llm-wiki-codex-ref/wiki -not -path '*/.git/*' 2>/dev/null | sort; echo \"\"; echo \"=== REF top-level ===\"; ls -la /Users/ianlo/Documents/Development/llm-wiki-codex-ref 2>/dev/null)",
+      "Read(//Users/ianlo/Documents/Development/llm-wiki-codex-ref/wiki/**)",
+      "Read(//Users/ianlo/Documents/Development/llm-wiki-codex-ref/**)",
+      "Bash(git checkout *)",
+      "Bash(mkdir -p wiki/concepts wiki/entities)",
+      "Bash(git mv *)",
+      "Bash(mv wiki/articles/apple-news-and-rumors.md wiki/concepts/apple-news-and-rumors.md)",
+      "Bash(rmdir wiki/articles)",
+      "Bash(echo \"articles dir removed: $?\")",
+      "Bash(cd /Users/ianlo/Documents/Development/knowledge_base_p2 2>/dev/null && echo \"=== top level ===\" && ls -la && echo && echo \"=== tree \\(2 levels\\) ===\" && find . -maxdepth 2 -not -path '*/.git/*' | head -80)",
+      "Read(//Users/ianlo/Documents/Development/knowledge_base_p2/**)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(echo \"EXIT=$?\")",
+      "Bash(gh api *)",
+      "Bash(# Diagnose why the local folder is inaccessible *)",
+      "Read(//Users/ianlo/Documents/Development//**)"
     ]
   }
 }

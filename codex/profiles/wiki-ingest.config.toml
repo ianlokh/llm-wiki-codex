@@ -2,7 +2,7 @@
 # Install as: ~/.codex/wiki-ingest.config.toml
 # Use with:   codex --profile wiki-ingest
 #
-# May write to the repo (to create articles + source records) but the network
+# May write to the repo (to create concept/entity pages + source records) but the network
 # stays unreachable, so ingestion cannot pull anything from outside the wiki.
 
 sandbox_mode = "workspace-write"

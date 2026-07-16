@@ -27,10 +27,11 @@ The query and lint profiles use a `read-only` sandbox, so those roles *cannot* m
 AGENTS.md              Enforced working contract for all three roles
 wiki/                  EVIDENCE ONLY — the entire query surface
   index.md             Map of Content (navigation, never cited)
-  articles/            Published, cited articles (citable)
-  sources/             Durable source records backing article claims (citable)
+  concepts/            Published pages for ideas/methods/topics (citable)
+  entities/            Published pages for people/orgs/products/tools (citable)
+  sources/             Durable source records backing page claims (citable)
 inbox/                 Approved-but-unpublished input (never evidence)
-templates/             Article + source templates (never evidence)
+templates/             Concept + entity + source templates (never evidence)
 reports/               Ingest/lint handoff logs (never evidence)
 .agents/skills/        The three Markdown-only skills (auto-discovered)
 codex/                 TOML templates to merge into $CODEX_HOME
@@ -38,4 +39,4 @@ codex/                 TOML templates to merge into $CODEX_HOME
 
 ## Corpus flow
 
-Place approved Markdown source material in `inbox/`. Use `wiki-ingest` to convert it into an evidence-backed article in `wiki/articles/` plus a provenance record in `wiki/sources/`, then use `wiki-lint` before querying it with `wiki-query`.
+Place approved Markdown source material in `inbox/`. Use `wiki-ingest` to convert it into an evidence-backed page — a concept in `wiki/concepts/` or an entity in `wiki/entities/` — plus a provenance record in `wiki/sources/`, then use `wiki-lint` before querying it with `wiki-query`.
