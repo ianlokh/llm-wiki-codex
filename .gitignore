@@ -1,0 +1,11 @@
+# macOS metadata
+.DS_Store
+
+# Codex-managed system skills (auto-provisioned into the workspace, not project content)
+skills/.system/
+
+# Serena tooling state
+.serena/
+
+# Obsidian workspace config (app state, not wiki evidence)
+.obsidian/

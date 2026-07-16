@@ -8,7 +8,17 @@
       "Bash(mkdir -p .agents/skills/wiki-ingest/agents .agents/skills/wiki-lint/agents .agents/skills/wiki-query/agents)",
       "Bash(mkdir -p inbox templates reports wiki/sources wiki/articles)",
       "Bash(mkdir -p codex/profiles)",
-      "Bash(python3 -)"
+      "Bash(python3 -)",
+      "Bash(git remote *)",
+      "Bash(grep -rnE 'bash|\\\\.sh|python3|\\\\bexec\\\\b|/bin/|\\\\$\\\\\\(|symlink|ln -s|chmod|PATH=' .agents .claude/skills .claude/agents codex .codex AGENTS.md CLAUDE.md)",
+      "Bash(echo \"---exit:$?---\")",
+      "Bash(echo \"exit:$?\")",
+      "Bash(git rm *)",
+      "Bash(git check-ignore *)",
+      "Bash(grep -vE '\\\\.md$')",
+      "Bash(grep -vE '^\\(codex/|\\\\.codex/agents/|\\\\.agents/skills/\\).*\\\\.\\(toml|ya?ml\\)$')",
+      "Bash(grep -vE '^\\\\.gitignore$')",
+      "Bash(awk '{print $1}')"
     ]
   }
 }

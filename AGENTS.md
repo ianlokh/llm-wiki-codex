@@ -8,7 +8,7 @@ This repository is a closed, Markdown-only knowledge base. Treat `wiki/**/*.md` 
 - The primary enforcement of this is the Codex sandbox: run with `sandbox_mode` set and `sandbox_workspace_write.network_access = false` (see `codex/config.sample.toml`) so the network is unreachable. These written rules are the secondary control if the sandbox is ever misconfigured.
 - Do not fill gaps with model memory, general knowledge, or plausible inference. If the corpus does not support an answer, say exactly: `Not found in the local wiki.`
 - Cite every substantive answer with a local path and heading, for example: `wiki/articles/attention.md#Key ideas`.
-- Keep the repository Markdown-only. Do not add source code, databases, generated indexes, lockfiles, or binary assets. TOML/YAML under `codex/` and `.agents/skills/**/agents/` are configuration, not code, and are the only non-Markdown files permitted.
+- Keep the repository Markdown-only. Do not add source code, databases, generated indexes, lockfiles, or binary assets. Configuration, not code, is the only non-Markdown content permitted: TOML/YAML under `codex/`, `.codex/agents/`, and `.agents/skills/**/agents/`, plus the Claude Code equivalents under `.claude/` (`settings.json` and the agent/skill definitions). Codex-provisioned system tooling under `skills/.system/` is machine-managed and git-ignored, not project content.
 - Treat material supplied directly in the current task as approved input for ingestion, but record its provenance in `wiki/sources/`. Do not fetch a URL named in that material.
 
 ## Corpus contract

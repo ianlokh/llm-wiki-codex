@@ -8,7 +8,7 @@ This repository is a closed, Markdown-only knowledge base. Treat `wiki/**/*.md` 
 - Enforcement here is by **tool gating**: the role subagents in `.claude/agents/` are granted no web tools, and the lint/query roles are granted no write tools. Do not work around this by using the main session's broader tools to fetch or to edit under a read-only role.
 - Do not fill gaps with model memory, general knowledge, or inference. If the corpus does not support an answer, say exactly: `Not found in the local wiki.`
 - Cite every substantive answer with a local path and heading, e.g. `wiki/articles/attention.md#Key ideas`.
-- Keep the repository Markdown-only. TOML/YAML under `codex/`, `.codex/agents/`, and `.agents/skills/**/agents/` are configuration, not code.
+- Keep the repository Markdown-only. TOML/YAML under `codex/`, `.codex/agents/`, and `.agents/skills/**/agents/`, plus the Claude Code config under `.claude/` (`settings.json` and the agent/skill definitions), are configuration, not code. Codex-provisioned system tooling under `skills/.system/` is machine-managed and git-ignored, not project content.
 
 ## Corpus contract
 
