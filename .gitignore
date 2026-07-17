@@ -40,3 +40,4 @@ wiki/entities/*.md
 wiki/sources/*.md
 
 # ============================ END MAKE-IT-YOURS BLOCK =======================
+.claude/settings.json
