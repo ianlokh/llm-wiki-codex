@@ -125,10 +125,3 @@ algorithms and methods (backpropagation), strategies and patterns (AI chip
 acquisition strategy), and applied approaches (AI for hospital 340B compliance,
 AI-assisted product development). When genuinely unsure, prefer `concepts/` for
 topics and `entities/` for named proper nouns.
-
-## Journal focus (optional)
-
-Research-journal entries under `wiki/journal/` are dated working logs of ingestion
-sessions, investigations, and open questions in this domain. They are **never
-evidence and never cited**; a durable fact discovered in the journal must be
-promoted into a `wiki/sources/` record before it can back a page.

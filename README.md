@@ -4,6 +4,8 @@ A local-first, **Markdown-only** knowledge base you clone and point at any subje
 
 It runs identically under **two AI runtimes** — Codex (`AGENTS.md`) and Claude Code (`CLAUDE.md`) — and the pages are plain YAML-frontmatter Markdown, so the same vault opens cleanly in **Obsidian**, Claude Desktop, or the Codex/ChatGPT desktop app.
 
+> **New here, or not a developer?** Start with **[GETTING-STARTED.md](GETTING-STARTED.md)** — a plain-language walkthrough from download to your first cited answer, including a worked example. Common questions are answered in **[FAQ.md](FAQ.md)**.
+
 Two files carry everything you customize:
 
 - **`DOMAIN.md`** — the single surface for retargeting the wiki to your subject (purpose, tag vocabulary, confidence rubric, entity/concept scope, frontmatter values).
@@ -122,6 +124,9 @@ Place approved Markdown in `inbox/` → **`wiki-ingest`** converts it into a con
 ## Layout
 
 ```
+GETTING-STARTED.md     Plain-language quickstart for non-technical users
+FAQ.md                 Common questions and answers
+LICENSE                MIT license
 AGENTS.md              Universal operating contract — Codex
 CLAUDE.md              Universal operating contract — Claude Code (mirror of AGENTS.md)
 DOMAIN.md              ← THE customization surface: retarget the wiki here
@@ -130,7 +135,8 @@ wiki/                  EVIDENCE ONLY — the entire query surface
   concepts/            Ideas / methods / topics (citable) — generated, gitignored
   entities/            People / orgs / products / tools (citable) — generated, gitignored
   sources/             Provenance records backing page claims (citable) — generated, gitignored
-inbox/                 Approved-but-unpublished input (never evidence)
+inbox/                 Approved-but-unpublished input (never evidence); ships with a worked-example article
+examples/              Expected output of the worked example (never evidence)
 templates/             Page templates + frontmatter schema (README.md) (never evidence)
 reports/               Ingest/lint handoff logs (never evidence)
 .agents/skills/        Canonical role skills (Codex auto-discovers)
