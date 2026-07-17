@@ -72,15 +72,50 @@ the page.
 ## Entity scope
 
 An **entity** page describes one specific named thing — a proper noun that could
-carry an infobox. In this domain, entity types include:
+carry an infobox. The `entity_type` frontmatter field records which kind; its
+controlled vocabulary for this domain is:
 
 - **product** — a device, app, or release (e.g. macOS 27 Golden Gate, foldable iPhone)
 - **organization** — a company, team, or institution (e.g. Apple, Nokia)
-- **tool / model** — a named implementation or model (e.g. Micrograd)
-- **platform / initiative** — a named program or platform (e.g. Nokia AI-RAN Platform)
+- **tool** — a named implementation or software tool
+- **model** — a named model (e.g. Micrograd)
+- **platform** — a named platform (e.g. Nokia AI-RAN Platform)
+- **initiative** — a named program or initiative
 - **threat** — a named malware family or campaign (e.g. CrashStealer)
 - **person** — a named individual
 - **place** — a named location
+
+## Page metadata (frontmatter)
+
+Every published page carries a YAML frontmatter block. The **key set is universal**
+(defined once in `templates/README.md` and the same in every clone); this section
+holds only the **domain-configurable values**. Retarget the wiki by editing the
+knobs below alongside the tag registry and confidence rubric above.
+
+**`origin_kind`** — controlled vocabulary for a source record's input shape:
+
+- `article` — a single article or post
+- `digest` — a multi-story digest or newsletter
+- `feed` — a homepage or feed snapshot
+- `report` — a multi-finding report or white paper
+- `dataset` — structured/tabular data
+- `document` — a standalone document (spec, filing, memo)
+
+**Enabled optional fields** — which non-core fields this domain populates. Because
+this domain records forward-looking rumors and relationships, all three are on:
+
+- `confidence` — **enabled** (concept/entity); uses the rubric above.
+- `aliases` — **enabled**; acronyms and alternate names.
+- `related` — **enabled**; associative links to other pages.
+
+**`link_style`** — `slug` (default): relational fields (`related`) hold bare
+filename-stem slugs, keeping the corpus portable and Markdown-only. A clone that
+lives entirely in Obsidian may set this to `wikilink` and use `"[[Title]]"` values
+instead, trading portability for native graph resolution.
+
+**Custom fields** — clones may add domain-specific keys (e.g. `prep_time` for a
+cooking wiki); declare recurring ones here so the vocabulary stays visible. Linting
+treats unknown keys as advisory, never blocking.
 
 ## Concept scope
 

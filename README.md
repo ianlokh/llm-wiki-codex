@@ -1,42 +1,142 @@
-# Karpathy Wiki
+# Closed-World Wiki — a reusable, Markdown-only knowledge base template
 
-A local-first, Markdown-only knowledge base operated through Codex. The wiki is intentionally closed-world: a missing answer is reported as missing, not supplemented from the internet or model knowledge.
+A local-first, **Markdown-only** knowledge base you clone and point at any subject area. It is intentionally **closed-world**: answers come only from the pages in `wiki/`, and a missing answer is reported as missing — never supplemented from the internet or model memory.
 
-## One-time setup (registration)
+It runs identically under **two AI runtimes** — Codex (`AGENTS.md`) and Claude Code (`CLAUDE.md`) — and the pages are plain YAML-frontmatter Markdown, so the same vault opens cleanly in **Obsidian**, Claude Desktop, or the Codex/ChatGPT desktop app.
 
-Codex loads configuration from `$CODEX_HOME` (default `~/.codex/`), **not** from this repository. So the TOML under `codex/` is a set of templates you apply once:
+Two files carry everything you customize:
 
-1. **Enforce closed-world + register skills.** Merge `codex/config.sample.toml` into `~/.codex/config.toml` (it sets `sandbox_workspace_write.network_access = false` and pins the three skills to `enabled = true`).
-2. **Install the per-role profiles.** Copy each file in `codex/profiles/` into `$CODEX_HOME` keeping the name pattern, e.g. `cp codex/profiles/wiki-query.config.toml ~/.codex/wiki-query.config.toml`.
+- **`DOMAIN.md`** — the single surface for retargeting the wiki to your subject (purpose, tag vocabulary, confidence rubric, entity/concept scope, frontmatter values).
+- **`templates/README.md`** — the universal frontmatter schema (fixed across clones).
 
-The project-local parts — `AGENTS.md` and `.agents/skills/` — are auto-loaded by Codex and need no installation.
+Everything else — the evidence-only corpus contract, the folder split, the tool-gated roles — stays universal.
 
-## Use it
+---
 
-Open this folder as a Codex project. Codex reads `AGENTS.md` first, then you explicitly invoke one of the three Markdown-only skills, ideally with its matching profile:
+## Customizing for your domain
 
-- Ingest approved material: `codex --profile wiki-ingest` → invoke `wiki-ingest`.
-- Audit the corpus: `codex --profile wiki-lint` → invoke `wiki-lint`.
-- Ask a local-only question: `codex --profile wiki-query` → invoke `wiki-query`.
+**To retarget the wiki, edit only [`DOMAIN.md`](DOMAIN.md).** It holds every domain-specific knob:
 
-The query and lint profiles use a `read-only` sandbox, so those roles *cannot* modify the wiki. The ingest profile allows writes but keeps the network unreachable.
+| Knob | What it controls |
+| --- | --- |
+| **Purpose** | One paragraph describing the subject area. |
+| **Tag taxonomy** | The controlled `tags:` registry — a governed-growth list, reuse-first. |
+| **Confidence rubric** | What `high` / `medium` / `low` mean for your material. |
+| **Entity scope** | Allowed `entity_type` values (product, organization, person, …). |
+| **Concept scope** | What counts as a concept vs. an entity. |
+| **Page metadata** | `origin_kind` vocabulary, which optional frontmatter fields are enabled, and `link_style`. |
+
+The operating-rule files (`AGENTS.md`, `CLAUDE.md`) and the templates never mention your subject — they defer to `DOMAIN.md` for every specific. Clone, rewrite `DOMAIN.md`, and the roles behave in the new domain with no other edits.
+
+### Example domains
+
+The shipped `DOMAIN.md` targets **contemporary technology / applied AI**. The same machinery works for, e.g.:
+
+- **Cooking** — concepts = techniques (emulsification), entities = ingredients/tools/dishes, sources = recipes/books; add a custom `prep_time` field.
+- **Competitive analysis** — concepts = strategies, entities = companies/products, sources = filings/press; lean on `confidence` for rumor vs. confirmed.
+- **Course notes** — concepts = topics, entities = people/works, sources = lectures/readings; use `related` to build a study graph.
+- **Security research** — concepts = attack/defense methods, entities = threats/tools/actors, sources = advisories/reports.
+
+---
+
+## The corpus contract (universal)
+
+The query surface is **evidence-only**. Everything citable lives in exactly three folders:
+
+- `wiki/concepts/` — ideas, methods, frameworks, topics. **Citable.**
+- `wiki/entities/` — one specific named thing (person, org, product, tool, model, place). **Citable.**
+- `wiki/sources/` — durable provenance records that back page claims. **Citable.**
+
+`wiki/index.md` (Map of Content) and anything outside `wiki/` (`inbox/`, `templates/`, `reports/`) are **never evidence**. Every published page opens with a YAML frontmatter block and the fixed heading schema (`## Summary`, `## Key ideas`, `## Sources`, `## Related`).
+
+---
+
+## Frontmatter & analytics
+
+Every page carries queryable YAML frontmatter — the substrate for dashboards and analytics.
+
+- The **key set is universal** (defined in [`templates/README.md`](templates/README.md)); the **allowed values are your domain** (in `DOMAIN.md`).
+- It is **plugin-agnostic plain YAML**: readable everywhere, and directly queryable by Obsidian Dataview/Bases where present. Frontmatter is metadata — never cited; answers come from the body.
+- Relational links (`related`) use **portable bare slugs** by default (`link_style: slug`); Obsidian-only vaults can switch to `wikilink`.
+
+### Obsidian plugin setup (optional)
+
+1. Open the `wiki/` folder as an Obsidian vault.
+2. Install the **Dataview** community plugin (add **Charts** for visualizations).
+3. Drop a query into `wiki/index.md` (never cited, so it's the natural dashboard):
+
+   ````markdown
+   ```dataview
+   TABLE confidence, updated, summary
+   FROM "concepts" OR "entities"
+   WHERE confidence = "low"
+   SORT updated DESC
+   ```
+   ````
+
+   Group sources by shape, or sum coverage:
+
+   ````markdown
+   ```dataview
+   TABLE origin_kind, item_count, claim_count FROM "sources" SORT item_count DESC
+   ```
+   ````
+
+No plugin is required for the wiki to function — Dataview only adds live dashboards on top of the same files.
+
+---
+
+## Running it
+
+Two runtimes read the **same** corpus and roles. Three tool-gated roles do the work: **ingest** (writes the corpus; no network), **lint** (read-only audit), **query** (read-only, wiki-only answers).
+
+### Codex
+
+Codex loads config from `$CODEX_HOME` (default `~/.codex/`), not from the repo, so `codex/` holds templates you apply once:
+
+1. **Enforce closed-world + register skills.** Merge `codex/config.sample.toml` into `~/.codex/config.toml` (sets `sandbox_workspace_write.network_access = false` and enables the three skills).
+2. **Install per-role profiles.** Copy each file in `codex/profiles/` into `$CODEX_HOME`, e.g. `cp codex/profiles/wiki-query.config.toml ~/.codex/wiki-query.config.toml`.
+
+`AGENTS.md` and `.agents/skills/` are auto-loaded. Then:
+
+- Ingest: `codex --profile wiki-ingest` → invoke `wiki-ingest`.
+- Audit: `codex --profile wiki-lint` → invoke `wiki-lint`.
+- Query: `codex --profile wiki-query` → invoke `wiki-query`.
+
+The query/lint profiles use a `read-only` sandbox; ingest allows writes but keeps the network unreachable.
+
+### Claude Code
+
+Open the folder in Claude Code. It reads `CLAUDE.md`, and the three subagents in `.claude/agents/` are **tool-gated** (ingest gets write tools, lint/query are read-only; none get web tools). Invoke a role with the Task tool, or run its skill from `.claude/skills/`.
+
+**Skill mirror invariant:** the canonical skills live in `.agents/skills/<role>/SKILL.md`; the `.claude/skills/<role>/SKILL.md` copies must stay **byte-identical**. Edit the canonical, then `cp` it over the mirror. `.github/workflows/skill-mirror.yml` enforces this on every push/PR.
+
+---
+
+## Corpus flow
+
+Place approved Markdown in `inbox/` → **`wiki-ingest`** converts it into a concept or entity page plus a `wiki/sources/` provenance record (each with frontmatter) → **`wiki-lint`** audits structure, frontmatter, links, and scope → **`wiki-query`** answers from the completed pages. Ingest before lint; lint before query; update `wiki/index.md` last.
+
+---
 
 ## Layout
 
 ```
-AGENTS.md              Enforced working contract for all three roles
+AGENTS.md              Universal operating contract — Codex
+CLAUDE.md              Universal operating contract — Claude Code (mirror of AGENTS.md)
+DOMAIN.md              ← THE customization surface: retarget the wiki here
 wiki/                  EVIDENCE ONLY — the entire query surface
-  index.md             Map of Content (navigation, never cited)
-  concepts/            Published pages for ideas/methods/topics (citable)
-  entities/            Published pages for people/orgs/products/tools (citable)
-  sources/             Durable source records backing page claims (citable)
+  index.md             Map of Content / dashboard host (navigation, never cited)
+  concepts/            Ideas / methods / topics (citable) — generated, gitignored
+  entities/            People / orgs / products / tools (citable) — generated, gitignored
+  sources/             Provenance records backing page claims (citable) — generated, gitignored
 inbox/                 Approved-but-unpublished input (never evidence)
-templates/             Concept + entity + source templates (never evidence)
+templates/             Page templates + frontmatter schema (README.md) (never evidence)
 reports/               Ingest/lint handoff logs (never evidence)
-.agents/skills/        The three Markdown-only skills (auto-discovered)
-codex/                 TOML templates to merge into $CODEX_HOME
+.agents/skills/        Canonical role skills (Codex auto-discovers)
+.claude/               Claude Code skills (byte-identical mirrors) + tool-gated agents
+.codex/ , codex/       Codex agents + TOML profile templates
+.github/workflows/     CI that guards the skill-mirror invariant
 ```
 
-## Corpus flow
-
-Place approved Markdown source material in `inbox/`. Use `wiki-ingest` to convert it into an evidence-backed page — a concept in `wiki/concepts/` or an entity in `wiki/entities/` — plus a provenance record in `wiki/sources/`, then use `wiki-lint` before querying it with `wiki-query`.
+> **Note:** generated pages under `wiki/{concepts,entities,sources}/` are gitignored — the template ships the scaffolding, and each clone grows its own local corpus.

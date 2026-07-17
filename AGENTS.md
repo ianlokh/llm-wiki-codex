@@ -30,6 +30,7 @@ The query surface is **evidence-only**. Everything that is *not* citable evidenc
 Because inbox, templates, and reports live outside `wiki/`, the evidence rule is simply: **evidence = `wiki/concepts/**`, `wiki/entities/**`, and `wiki/sources/**`.** The only in-wiki exception is `wiki/index.md`, which is navigation, never evidence.
 
 - Classify each new page before writing it: a **concept** explains how an idea or method works; an **entity** describes one specific named thing (a proper noun that could carry an infobox). When genuinely unsure, prefer `concepts/` for topics and `entities/` for named people, organizations, products, tools, models, or places.
+- Every published page opens with a YAML frontmatter block: universal keys defined in `templates/README.md`, allowed values configured in `DOMAIN.md`. Frontmatter is metadata, never evidence — never cite it, and answer queries from the body. It precedes the H1 and does not affect the heading rule below.
 - Every published concept or entity page must contain exactly one H1 title plus these H2 headings exactly once: `## Summary`, `## Key ideas`, `## Sources`, and `## Related`. Both page types share this single schema; the folder — not the headings — carries the concept/entity distinction.
 - Every `## Sources` entry must link to a record in `wiki/sources/` or to another published page, using relative Markdown links.
 - Use relative Markdown links for all relationships between wiki files.

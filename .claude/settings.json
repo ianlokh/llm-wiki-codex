@@ -48,7 +48,12 @@
       "Bash(rm -rf ~/.codex/skills/wiki-ingest ~/.codex/skills/wiki-lint ~/.codex/skills/wiki-query *)",
       "Bash(cp .agents/skills/wiki-query/SKILL.md .claude/skills/wiki-query/SKILL.md && diff .agents/skills/wiki-query/SKILL.md .claude/skills/wiki-query/SKILL.md && echo \"mirror byte-identical\")",
       "Bash(python3 -c \"import sys,json;[print\\(json.loads\\(l\\).get\\('summary',''\\)\\) for l in sys.stdin]\")",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(grep -iE '```base|obsidian base|\\\\.base')",
+      "WebFetch(domain:blacksmithgu.github.io)",
+      "WebFetch(domain:danholloran.me)",
+      "Bash(cp .agents/skills/wiki-ingest/SKILL.md .claude/skills/wiki-ingest/SKILL.md)",
+      "Bash(cp .agents/skills/wiki-lint/SKILL.md .claude/skills/wiki-lint/SKILL.md)"
     ],
     "additionalDirectories": [
       "/Users/ianlo/.codex/skills/wiki-ingest",

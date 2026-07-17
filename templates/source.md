@@ -1,3 +1,17 @@
+---
+# Frontmatter schema — see templates/README.md for rules, DOMAIN.md for allowed values.
+title:                      # human-readable, matches the H1 below
+type: source                # fixed for this template (= folder)
+origin_kind:                # article|digest|feed|report|dataset|document — DOMAIN.md
+source_format:              # markdown|pdf|html|url|text
+tags: []                    # DOMAIN.md tag registry (open axis; reuse-first)
+item_count:                 # integer: distinct substantive items in the input
+claim_count:                # integer: bullets under ## What it asserts
+summary:                    # one-line abstract of the source (optional)
+ingested:                   # YYYY-MM-DD (ISO 8601, unquoted)
+ingested_by: wiki-ingest
+---
+
 # Source: Title
 
 ## Origin
