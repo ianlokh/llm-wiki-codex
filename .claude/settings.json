@@ -39,7 +39,18 @@
       "Bash(echo \"EXIT=$?\")",
       "Bash(gh api *)",
       "Bash(# Diagnose why the local folder is inaccessible *)",
-      "Read(//Users/ianlo/Documents/Development//**)"
+      "Read(//Users/ianlo/Documents/Development//**)",
+      "Bash(grep -n -i -A3 \"^| \\\\`skills\\\\`\\\\|skills:\\\\|Skill tool\\\\|tools:.*Skill\" toolu_01PmjmmFFev3JjXocqZCTiwj.txt)",
+      "Bash(gh issue *)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('#%s [%s] %s'%\\(d['number'],d['state'],d['title']\\)\\); print\\('updated:',d['updatedAt']\\); print\\('labels:',', '.join\\(l['name'] for l in d['labels']\\)\\); print\\('---BODY---'\\); print\\(d['body'][:2500]\\)\")",
+      "Bash(git add *)",
+      "Read(//Users/ianlo/.codex/skills/**)",
+      "Bash(rm -rf ~/.codex/skills/wiki-ingest ~/.codex/skills/wiki-lint ~/.codex/skills/wiki-query *)",
+      "Bash(cp .agents/skills/wiki-query/SKILL.md .claude/skills/wiki-query/SKILL.md && diff .agents/skills/wiki-query/SKILL.md .claude/skills/wiki-query/SKILL.md && echo \"mirror byte-identical\")"
+    ],
+    "additionalDirectories": [
+      "/Users/ianlo/.codex/skills/wiki-ingest",
+      "/Users/ianlo/Documents/Development/llm-wiki-codex/.claude/skills/wiki-query"
     ]
   }
 }
