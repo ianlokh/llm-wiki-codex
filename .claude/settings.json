@@ -46,7 +46,9 @@
       "Bash(git add *)",
       "Read(//Users/ianlo/.codex/skills/**)",
       "Bash(rm -rf ~/.codex/skills/wiki-ingest ~/.codex/skills/wiki-lint ~/.codex/skills/wiki-query *)",
-      "Bash(cp .agents/skills/wiki-query/SKILL.md .claude/skills/wiki-query/SKILL.md && diff .agents/skills/wiki-query/SKILL.md .claude/skills/wiki-query/SKILL.md && echo \"mirror byte-identical\")"
+      "Bash(cp .agents/skills/wiki-query/SKILL.md .claude/skills/wiki-query/SKILL.md && diff .agents/skills/wiki-query/SKILL.md .claude/skills/wiki-query/SKILL.md && echo \"mirror byte-identical\")",
+      "Bash(python3 -c \"import sys,json;[print\\(json.loads\\(l\\).get\\('summary',''\\)\\) for l in sys.stdin]\")",
+      "Bash(python3 -c ' *)"
     ],
     "additionalDirectories": [
       "/Users/ianlo/.codex/skills/wiki-ingest",

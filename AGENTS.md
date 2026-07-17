@@ -11,6 +11,10 @@ This repository is a closed, Markdown-only knowledge base. Treat `wiki/**/*.md` 
 - Keep the repository Markdown-only. Do not add source code, databases, generated indexes, lockfiles, or binary assets. Configuration, not code, is the only non-Markdown content permitted: TOML/YAML under `codex/`, `.codex/agents/`, and `.agents/skills/**/agents/`, plus the Claude Code equivalents under `.claude/` (`settings.json` and the agent/skill definitions). The single permitted exception is a CI workflow under `.github/workflows/` that only guards repository invariants — specifically the Claude skill mirror, where each `.claude/skills/<role>/SKILL.md` must stay byte-identical to the canonical `.agents/skills/<role>/SKILL.md`. Codex-provisioned system tooling under `skills/.system/` is machine-managed and git-ignored, not project content.
 - Treat material supplied directly in the current task as approved input for ingestion, but record its provenance in `wiki/sources/`. Do not fetch a URL named in that material.
 
+## Domain configuration
+
+Domain-specific knobs — the wiki's purpose, the controlled `tags:` vocabulary, the `confidence` rubric, and the entity/concept scope — live in root `DOMAIN.md`, the single surface for retargeting the wiki to another subject area. These operating-rule files hold only the universal, domain-agnostic rules; consult `DOMAIN.md` for the domain specifics, and edit only `DOMAIN.md` to retarget. `DOMAIN.md` is configuration, never evidence, and is never cited. It is greppable by the ingest/lint/query roles in both runtimes, so it drives behavior rather than merely documenting it.
+
 ## Corpus contract
 
 The query surface is **evidence-only**. Everything that is *not* citable evidence lives outside `wiki/`.

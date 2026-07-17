@@ -10,6 +10,10 @@ This repository is a closed, Markdown-only knowledge base. Treat `wiki/**/*.md` 
 - Cite every substantive answer with a relative Markdown link whose target is a bare file path with no `#anchor`, e.g. `[wiki/concepts/attention.md — Key ideas](wiki/concepts/attention.md)`. The link syntax makes citations clickable in the Markdown-rendering desktop apps this serves (Claude Desktop and the Codex/ChatGPT desktop app); omitting the anchor keeps the target a real path that resolves to the page.
 - Keep the repository Markdown-only. TOML/YAML under `codex/`, `.codex/agents/`, and `.agents/skills/**/agents/`, the Claude Code config under `.claude/` (`settings.json` and the agent/skill definitions), and a CI workflow under `.github/workflows/` that only guards repository invariants (the skill mirror described under Skills), are configuration, not code. Codex-provisioned system tooling under `skills/.system/` is machine-managed and git-ignored, not project content.
 
+## Domain configuration
+
+Domain-specific knobs — the wiki's purpose, the controlled `tags:` vocabulary, the `confidence` rubric, and the entity/concept scope — live in root `DOMAIN.md`, the single surface for retargeting the wiki to another subject area. These operating-rule files hold only the universal, domain-agnostic rules; consult `DOMAIN.md` for the domain specifics, and edit only `DOMAIN.md` to retarget. `DOMAIN.md` is configuration, never evidence, and is never cited. It is greppable by the ingest/lint/query roles in both runtimes, so it drives behavior rather than merely documenting it.
+
 ## Corpus contract
 
 The query surface is **evidence-only**; everything that is not citable evidence lives outside `wiki/`.
