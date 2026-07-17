@@ -8,7 +8,7 @@ This repository is a closed, Markdown-only knowledge base. Treat `wiki/**/*.md` 
 - Enforcement here is by **tool gating**: the role subagents in `.claude/agents/` are granted no web tools, and the lint/query roles are granted no write tools. Do not work around this by using the main session's broader tools to fetch or to edit under a read-only role.
 - Do not fill gaps with model memory, general knowledge, or inference. If the corpus does not support an answer, say exactly: `Not found in the local wiki.`
 - Cite every substantive answer with a local path and heading, e.g. `wiki/concepts/attention.md#Key ideas`.
-- Keep the repository Markdown-only. TOML/YAML under `codex/`, `.codex/agents/`, and `.agents/skills/**/agents/`, plus the Claude Code config under `.claude/` (`settings.json` and the agent/skill definitions), are configuration, not code. Codex-provisioned system tooling under `skills/.system/` is machine-managed and git-ignored, not project content.
+- Keep the repository Markdown-only. TOML/YAML under `codex/`, `.codex/agents/`, and `.agents/skills/**/agents/`, the Claude Code config under `.claude/` (`settings.json` and the agent/skill definitions), and a CI workflow under `.github/workflows/` that only guards repository invariants (the skill mirror described under Skills), are configuration, not code. Codex-provisioned system tooling under `skills/.system/` is machine-managed and git-ignored, not project content.
 
 ## Corpus contract
 
@@ -50,4 +50,10 @@ Ordering: ingestion must finish before linting the same page, and linting should
 
 ## Skills
 
-`.claude/skills/{wiki-ingest,wiki-lint,wiki-query}/SKILL.md` are symlinks to the canonical skills in `.agents/skills/` — one source of truth shared with Codex. Editing either path edits the same file.
+The canonical skills live in `.agents/skills/{wiki-ingest,wiki-lint,wiki-query}/SKILL.md`, which Codex auto-discovers by location. Claude Code only reads skills under `.claude/skills/`, and git symlinks are not portable to Windows checkouts, so `.claude/skills/{wiki-ingest,wiki-lint,wiki-query}/SKILL.md` are **committed real-file copies** (mirrors) of the canonicals — not symlinks.
+
+**Invariant:** each `.claude/skills/<role>/SKILL.md` must stay byte-identical to `.agents/skills/<role>/SKILL.md`. Edit the canonical under `.agents/skills/`, then copy it over the mirror:
+- macOS/Linux: `cp .agents/skills/<role>/SKILL.md .claude/skills/<role>/SKILL.md`
+- Windows PowerShell: `Copy-Item .agents/skills/<role>/SKILL.md .claude/skills/<role>/SKILL.md -Force`
+
+`.github/workflows/skill-mirror.yml` enforces this on every push and pull request: it fails, with the exact copy command, if a mirror drifts from its canonical or is replaced by a symlink. The Claude subagents in `.claude/agents/` load their role skill by name via the `skills:` frontmatter field (which preloads the mirror from `.claude/skills/`), so no in-agent path reference is needed.
