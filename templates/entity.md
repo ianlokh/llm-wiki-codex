@@ -1,3 +1,17 @@
+---
+# Frontmatter schema — see templates/README.md for rules, DOMAIN.md for allowed values.
+title:                      # human-readable, matches the H1 below
+type: entity                # fixed for this template (= folder)
+entity_type:                # product|organization|tool|model|platform|initiative|threat|person|place — DOMAIN.md entity scope
+tags: []                    # DOMAIN.md tag registry (open axis; reuse-first)
+confidence:                 # high | medium | low — DOMAIN.md confidence rubric
+created:                    # YYYY-MM-DD (ISO 8601, unquoted)
+updated:                    # YYYY-MM-DD
+summary:                    # one-line abstract (≤ ~200 chars) for dashboards
+aliases: []                 # optional: acronyms / alternate names
+related: []                 # optional: bare slugs of related pages (link_style: slug)
+---
+
 # Title
 
 ## Summary

@@ -7,17 +7,29 @@ skills/.system/
 # Serena tooling state
 .serena/
 
+# Personal Claude Code settings (machine-specific, never shared)
+.claude/settings.local.json
+
 # Obsidian workspace config (app state, not wiki evidence)
 .obsidian/
 
-# --- Ingestion & linting artifacts (generated/test content, not checked in) ---
-# Git tracks only scaffolding (READMEs, templates, index). All ingested inbox
-# inputs and all generated wiki pages/sources/reports stay local and ignored,
-# including the backpropagation/micrograd test documents and future runs.
+# ============================================================================
+# ⚠️  IS THIS YOUR OWN KNOWLEDGE BASE? READ THIS FIRST.
+#
+# The rules below exist so the TEMPLATE repository ships empty. They tell git
+# to NEVER save your wiki pages, source records, or inbox files.
+#
+# If you downloaded this repo to build YOUR OWN second brain and you back it
+# up to GitHub, DELETE everything from here to "END MAKE-IT-YOURS BLOCK".
+# Otherwise your pages will be silently left out of every backup.
+#
+# (See GETTING-STARTED.md, step "Make it yours".)
+# ============================================================================
 
-# Raw inbox inputs (keep the README)
+# Raw inbox inputs (keep the README and the worked example)
 inbox/*.md
 !inbox/README.md
+!inbox/example-attention-article.md
 
 # Ingestion run reports (keep the README)
 reports/ingest-*.md
@@ -26,3 +38,5 @@ reports/ingest-*.md
 wiki/concepts/*.md
 wiki/entities/*.md
 wiki/sources/*.md
+
+# ============================ END MAKE-IT-YOURS BLOCK =======================

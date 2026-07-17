@@ -11,6 +11,10 @@ This repository is a closed, Markdown-only knowledge base. Treat `wiki/**/*.md` 
 - Keep the repository Markdown-only. Do not add source code, databases, generated indexes, lockfiles, or binary assets. Configuration, not code, is the only non-Markdown content permitted: TOML/YAML under `codex/`, `.codex/agents/`, and `.agents/skills/**/agents/`, plus the Claude Code equivalents under `.claude/` (`settings.json` and the agent/skill definitions). The single permitted exception is a CI workflow under `.github/workflows/` that only guards repository invariants — specifically the Claude skill mirror, where each `.claude/skills/<role>/SKILL.md` must stay byte-identical to the canonical `.agents/skills/<role>/SKILL.md`. Codex-provisioned system tooling under `skills/.system/` is machine-managed and git-ignored, not project content.
 - Treat material supplied directly in the current task as approved input for ingestion, but record its provenance in `wiki/sources/`. Do not fetch a URL named in that material.
 
+## Domain configuration
+
+Domain-specific knobs — the wiki's purpose, the controlled `tags:` vocabulary, the `confidence` rubric, and the entity/concept scope — live in root `DOMAIN.md`, the single surface for retargeting the wiki to another subject area. These operating-rule files hold only the universal, domain-agnostic rules; consult `DOMAIN.md` for the domain specifics, and edit only `DOMAIN.md` to retarget. `DOMAIN.md` is configuration, never evidence, and is never cited. It is greppable by the ingest/lint/query roles in both runtimes, so it drives behavior rather than merely documenting it.
+
 ## Corpus contract
 
 The query surface is **evidence-only**. Everything that is *not* citable evidence lives outside `wiki/`.
@@ -26,6 +30,7 @@ The query surface is **evidence-only**. Everything that is *not* citable evidenc
 Because inbox, templates, and reports live outside `wiki/`, the evidence rule is simply: **evidence = `wiki/concepts/**`, `wiki/entities/**`, and `wiki/sources/**`.** The only in-wiki exception is `wiki/index.md`, which is navigation, never evidence.
 
 - Classify each new page before writing it: a **concept** explains how an idea or method works; an **entity** describes one specific named thing (a proper noun that could carry an infobox). When genuinely unsure, prefer `concepts/` for topics and `entities/` for named people, organizations, products, tools, models, or places.
+- Every published page opens with a YAML frontmatter block: universal keys defined in `templates/README.md`, allowed values configured in `DOMAIN.md`. Frontmatter is metadata, never evidence — never cite it, and answer queries from the body. It precedes the H1 and does not affect the heading rule below.
 - Every published concept or entity page must contain exactly one H1 title plus these H2 headings exactly once: `## Summary`, `## Key ideas`, `## Sources`, and `## Related`. Both page types share this single schema; the folder — not the headings — carries the concept/entity distinction.
 - Every `## Sources` entry must link to a record in `wiki/sources/` or to another published page, using relative Markdown links.
 - Use relative Markdown links for all relationships between wiki files.

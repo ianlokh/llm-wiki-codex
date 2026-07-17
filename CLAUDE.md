@@ -10,6 +10,10 @@ This repository is a closed, Markdown-only knowledge base. Treat `wiki/**/*.md` 
 - Cite every substantive answer with a relative Markdown link whose target is a bare file path with no `#anchor`, e.g. `[wiki/concepts/attention.md — Key ideas](wiki/concepts/attention.md)`. The link syntax makes citations clickable in the Markdown-rendering desktop apps this serves (Claude Desktop and the Codex/ChatGPT desktop app); omitting the anchor keeps the target a real path that resolves to the page.
 - Keep the repository Markdown-only. TOML/YAML under `codex/`, `.codex/agents/`, and `.agents/skills/**/agents/`, the Claude Code config under `.claude/` (`settings.json` and the agent/skill definitions), and a CI workflow under `.github/workflows/` that only guards repository invariants (the skill mirror described under Skills), are configuration, not code. Codex-provisioned system tooling under `skills/.system/` is machine-managed and git-ignored, not project content.
 
+## Domain configuration
+
+Domain-specific knobs — the wiki's purpose, the controlled `tags:` vocabulary, the `confidence` rubric, and the entity/concept scope — live in root `DOMAIN.md`, the single surface for retargeting the wiki to another subject area. These operating-rule files hold only the universal, domain-agnostic rules; consult `DOMAIN.md` for the domain specifics, and edit only `DOMAIN.md` to retarget. `DOMAIN.md` is configuration, never evidence, and is never cited. It is greppable by the ingest/lint/query roles in both runtimes, so it drives behavior rather than merely documenting it.
+
 ## Corpus contract
 
 The query surface is **evidence-only**; everything that is not citable evidence lives outside `wiki/`.
@@ -23,6 +27,7 @@ The query surface is **evidence-only**; everything that is not citable evidence 
 So the rule is simply: **evidence = `wiki/concepts/**`, `wiki/entities/**`, and `wiki/sources/**`.** `wiki/index.md` is the one in-wiki file that is never evidence.
 
 - Classify each new page: a **concept** explains how an idea or method works; an **entity** describes one named thing. When unsure, prefer `concepts/` for topics and `entities/` for proper nouns that could carry an infobox.
+- Every published page opens with a YAML frontmatter block: universal keys defined in `templates/README.md`, allowed values in `DOMAIN.md`. Frontmatter is metadata, never evidence — never cite it; answer from the body. It precedes the H1 and does not affect the heading rule.
 - Every published concept or entity page has exactly one H1 plus one each of `## Summary`, `## Key ideas`, `## Sources`, `## Related`. Both page types share this schema; the folder carries the concept/entity distinction.
 - Every `## Sources` entry links to a record in `wiki/sources/` or another published page, via relative Markdown links.
 - Make only additive or narrowly corrective edits. Update `wiki/index.md` last, one page at a time.
