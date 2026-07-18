@@ -1,25 +1,22 @@
 # Wiki Index
 
-## Scope
-
-This wiki contains only material deliberately ingested into `wiki/concepts/` and `wiki/entities/`, backed by records in `wiki/sources/`. It has no external fallback source. This index is navigation only and is never cited as evidence.
-
 ## Concepts
 
-Ideas, methods, frameworks, and topics.
-
-*No pages yet — entries appear here as you ingest material.*
+- [AI in the National Security Enterprise](concepts/ai-in-national-security-enterprise.md)
+- [Group Relative Policy Optimization](concepts/group-relative-policy-optimization.md)
+- [On-Policy Distillation](concepts/on-policy-distillation.md)
+- [Pretraining, Mid-training, and Post-training](concepts/pretraining-mid-training-post-training.md)
+- [Reinforcement Learning from Human Feedback](concepts/reinforcement-learning-from-human-feedback.md)
+- [Self-Attention](concepts/self-attention.md)
+- [State AI Law Preemption](concepts/state-ai-law-preemption.md)
+- [Transformer](concepts/transformer.md)
 
 ## Entities
 
-People, organizations, products, tools, models, and places.
-
-*No pages yet — entries appear here as you ingest material.*
-
-## Topic maps
-
-Maps of Content (topic hubs) are themselves ordinary pages in `wiki/concepts/` whose body is mostly links. Add them here as they are created.
-
-## Maintenance
-
-Update this index when publishing or retiring a page, one page at a time (it is the serialized write-point). Do not list templates, inbox items, or source records here. Replace a "*No pages yet*" placeholder with the first real entry in that section.
+- [AI Economics Institute](entities/ai-economics-institute.md)
+- [Claude Fable 5](entities/claude-fable-5.md)
+- [Claude Mythos 5](entities/claude-mythos-5.md)
+- [Dr. Ashish Bamania](entities/dr-ashish-bamania.md)
+- [Leading the Future](entities/leading-the-future.md)
+- [Substack app](entities/substack-app.md)
+- [Tensorwise](entities/tensorwise.md)

@@ -102,7 +102,8 @@ Two small things turn the template into *your* knowledge base:
    that defines what your wiki is about (its purpose, its topic tags, what
    counts as an "entity"). The shipped version targets technology and AI;
    rewrite it for your field — cooking, case law, research notes, anything.
-   You never need to edit any other rule file.
+   You never need to edit any other rule file to contextualise for your new
+   knowledge domain.
 2. **If you back up to GitHub:** open the file named `.gitignore` in any text
    editor and delete the clearly marked block (it starts with "⚠️ IS THIS YOUR
    OWN KNOWLEDGE BASE?"). The template ships with rules that keep *example*
@@ -117,6 +118,8 @@ Your routine is simple: drop approved material (as Markdown text files) into
 questions with **wiki-query**. Delete the example files whenever you're done
 with them.
 
+- Tripped up by a word? Every term is defined in one line in
+  [GLOSSARY.md](GLOSSARY.md).
 - Questions or odd behavior? See [FAQ.md](FAQ.md).
 - Want the technical details (Obsidian dashboards, command-line use, how the
   roles are enforced)? See [README.md](README.md).

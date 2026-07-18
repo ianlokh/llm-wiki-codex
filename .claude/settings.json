@@ -7,7 +7,24 @@
       "Bash(git -C /Users/ianlo/Documents/Development/llm-wiki-codex branch -a)",
       "Bash(git -C /Users/ianlo/Documents/Development/llm-wiki-codex remote -v)",
       "Bash(git fetch *)",
-      "Bash(gh pr create --base feat/richer-taxonomy --head feat/wiki-dashboard-analytics --title 'Merge wiki dashboard/analytics work into richer-taxonomy' --body ' *)"
+      "Bash(gh pr create --base feat/richer-taxonomy --head feat/wiki-dashboard-analytics --title 'Merge wiki dashboard/analytics work into richer-taxonomy' --body ' *)",
+      "Bash(git ls-remote *)",
+      "Bash(git stash *)",
+      "Bash(git push *)",
+      "Bash(echo \"=== exit: $? \\(0=identical, 1=differ\\) ===\")",
+      "Bash(grep -o 'wiki/concepts/\\\\*\\\\*`, `wiki/entities/\\\\*\\\\*`, and `wiki/sources/\\\\*\\\\*' AGENTS.md)",
+      "Bash(grep -c '`#anchor`' AGENTS.md)",
+      "Bash(git --no-pager diff --no-color .agents/skills/wiki-lint/SKILL.md)",
+      "Bash(git --no-pager diff --no-color AGENTS.md)",
+      "Bash(ls -la ~/.claude/projects/-Users-ianlo-Documents-Development-llm-wiki-codex/ 2>/dev/null | head -50; echo \"---CODEX---\"; ls -la ~/.codex/sessions/ 2>/dev/null | head -20; echo \"---CODEX HISTORY---\"; ls -la ~/.codex/ 2>/dev/null | head -30)",
+      "Read(//Users/ianlo/.codex/sessions/**)",
+      "Read(//Users/ianlo/.codex/**)",
+      "Bash(python3)",
+      "Bash(git --no-pager diff --no-color AGENTS.md CLAUDE.md)",
+      "Bash(cp .agents/skills/wiki-lint/SKILL.md .claude/skills/wiki-lint/SKILL.md && diff .agents/skills/wiki-lint/SKILL.md .claude/skills/wiki-lint/SKILL.md && echo \"MIRROR IN SYNC\")"
+    ],
+    "additionalDirectories": [
+      "/Users/ianlo/Documents/Development/llm-wiki-codex/.claude/skills/wiki-lint"
     ]
   }
 }

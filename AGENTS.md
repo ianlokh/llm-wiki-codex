@@ -2,22 +2,24 @@
 
 This repository is a closed, Markdown-only knowledge base. Treat `wiki/**/*.md` as the only authority for factual answers.
 
+> New to any term used here? Plain-language definitions are in [GLOSSARY.md](GLOSSARY.md).
+
 ## Non-negotiable boundaries
 
-- Do not browse the web, call external APIs, use MCP resources, install packages, or consult any information outside this repository while ingesting, linting, or answering a wiki query.
-- The primary enforcement of this is the Codex sandbox: run with `sandbox_mode` set and `sandbox_workspace_write.network_access = false` (see `codex/config.sample.toml`) so the network is unreachable. These written rules are the secondary control if the sandbox is ever misconfigured.
-- Do not fill gaps with model memory, general knowledge, or plausible inference. If the corpus does not support an answer, say exactly: `Not found in the local wiki.`
-- Cite every substantive answer with a relative Markdown link whose target is a bare file path with no `#anchor`, for example: `[wiki/concepts/attention.md — Key ideas](wiki/concepts/attention.md)`. The link syntax makes citations clickable in the Markdown-rendering desktop apps this serves (Claude Desktop and the Codex/ChatGPT desktop app); omitting the anchor keeps the target a real path that resolves to the page.
-- Keep the repository Markdown-only. Do not add source code, databases, generated indexes, lockfiles, or binary assets. Configuration, not code, is the only non-Markdown content permitted: TOML/YAML under `codex/`, `.codex/agents/`, and `.agents/skills/**/agents/`, plus the Claude Code equivalents under `.claude/` (`settings.json` and the agent/skill definitions). The single permitted exception is a CI workflow under `.github/workflows/` that only guards repository invariants — specifically the Claude skill mirror, where each `.claude/skills/<role>/SKILL.md` must stay byte-identical to the canonical `.agents/skills/<role>/SKILL.md`. Codex-provisioned system tooling under `skills/.system/` is machine-managed and git-ignored, not project content.
-- Treat material supplied directly in the current task as approved input for ingestion, but record its provenance in `wiki/sources/`. Do not fetch a URL named in that material.
+- While ingesting, linting, or answering a question, do not go outside this repository — no web browsing, no external APIs, no MCP resources, no installing packages, and no other outside information.
+- This is enforced first by the Codex sandbox: run with `sandbox_mode` set and `sandbox_workspace_write.network_access = false` (see `codex/config.sample.toml`) so the network simply cannot be reached. The written rules here are the backup control if the sandbox is ever set up wrong.
+- Do not fill gaps from your own memory, general knowledge, or guesswork. If the wiki does not support an answer, say exactly: `Not found in the local wiki.` This applies to every answer taken from the wiki, and to all three roles. There is one narrow exception: once the wiki has been checked and has nothing, the main session may offer to answer from outside the wiki — but only with the user's permission, and never while acting as a role. See Delegation for how that works.
+- Back up every real answer with a link to the page it came from. Write it as a relative Markdown link pointing at the plain file path, with no `#anchor` on the end — for example: `[wiki/concepts/attention.md — Key ideas](wiki/concepts/attention.md)`. Writing it as a link is what makes the citation clickable in the Markdown-rendering desktop apps this serves (Claude Desktop and the Codex/ChatGPT desktop app); leaving off the anchor keeps the target a real path that resolves to the page.
+- Keep the repository Markdown-only. Do not add program source code, databases, generated indexes, lockfiles, or binary files. The only non-Markdown files allowed are configuration, not code: TOML/YAML under `codex/`, `.codex/agents/`, and `.agents/skills/**/agents/`, plus the Claude Code equivalents under `.claude/` (`settings.json` and the agent/skill definitions). One further exception is allowed: a CI check under `.github/workflows/` that only guards repository rules — specifically the Claude skill mirror, where each `.claude/skills/<role>/SKILL.md` must stay byte-identical to the original `.agents/skills/<role>/SKILL.md`. System tooling that Codex installs under `skills/.system/` is machine-managed and git-ignored, not project content.
+- Material handed to you directly in the current task counts as approved input you may ingest — but record where it came from in `wiki/sources/`. Do not fetch a URL named inside that material.
 
 ## Domain configuration
 
-Domain-specific knobs — the wiki's purpose, the controlled `tags:` vocabulary, the `confidence` rubric, and the entity/concept scope — live in root `DOMAIN.md`, the single surface for retargeting the wiki to another subject area. These operating-rule files hold only the universal, domain-agnostic rules; consult `DOMAIN.md` for the domain specifics, and edit only `DOMAIN.md` to retarget. `DOMAIN.md` is configuration, never evidence, and is never cited. It is greppable by the ingest/lint/query roles in both runtimes, so it drives behavior rather than merely documenting it.
+Everything specific to your subject — the wiki's purpose, the allowed `tags:`, the `confidence` levels, and what counts as an entity vs. a concept — lives in one file, root `DOMAIN.md`. That is the single place you edit to point the wiki at a different subject area. These operating-rule files hold only the general rules that stay the same in every clone; look in `DOMAIN.md` for the subject-specific details, and edit only `DOMAIN.md` to retarget. `DOMAIN.md` is configuration, never evidence, and is never cited. All three roles read it (in both runtimes), so it actually steers their behavior rather than just describing it.
 
 ## Corpus contract
 
-The query surface is **evidence-only**. Everything that is *not* citable evidence lives outside `wiki/`.
+The pages the wiki can answer from are **evidence only**. Anything that is *not* citable evidence lives outside `wiki/`.
 
 - `wiki/concepts/` — published pages for ideas, methods, frameworks, or topics. Lowercase, hyphenated filenames. **Citable.**
 - `wiki/entities/` — published pages for a specific named thing: a person, organization, product, tool, model, or place. Lowercase, hyphenated. **Citable.**
@@ -29,26 +31,26 @@ The query surface is **evidence-only**. Everything that is *not* citable evidenc
 
 Because inbox, templates, and reports live outside `wiki/`, the evidence rule is simply: **evidence = `wiki/concepts/**`, `wiki/entities/**`, and `wiki/sources/**`.** The only in-wiki exception is `wiki/index.md`, which is navigation, never evidence.
 
-- Classify each new page before writing it: a **concept** explains how an idea or method works; an **entity** describes one specific named thing (a proper noun that could carry an infobox). When genuinely unsure, prefer `concepts/` for topics and `entities/` for named people, organizations, products, tools, models, or places.
-- Every published page opens with a YAML frontmatter block: universal keys defined in `templates/README.md`, allowed values configured in `DOMAIN.md`. Frontmatter is metadata, never evidence — never cite it, and answer queries from the body. It precedes the H1 and does not affect the heading rule below.
-- Every published concept or entity page must contain exactly one H1 title plus these H2 headings exactly once: `## Summary`, `## Key ideas`, `## Sources`, and `## Related`. Both page types share this single schema; the folder — not the headings — carries the concept/entity distinction.
-- Every `## Sources` entry must link to a record in `wiki/sources/` or to another published page, using relative Markdown links.
-- Use relative Markdown links for all relationships between wiki files.
-- Make only additive or narrowly corrective edits. Do not overwrite a human's material without an explicit request.
-- Treat `wiki/index.md` as the one serialized write-point: update it last, one page at a time, to avoid parallel-ingestion conflicts.
+- Before you write a new page, decide its kind: a **concept** explains how an idea or method works; an **entity** describes one specific named thing (a name that could carry its own fact-box). When genuinely unsure, put topics in `concepts/` and named people, organizations, products, tools, models, or places in `entities/`.
+- Every published page opens with a YAML frontmatter block: the set of keys is the same everywhere (defined in `templates/README.md`), and the allowed values come from `DOMAIN.md`. Frontmatter is information *about* the page, never evidence — never cite it, and answer queries from the body. It sits above the H1 and does not affect the heading rule below.
+- Every published concept or entity page must have exactly one H1 title, plus exactly one of each of these H2 sections: `## Summary`, `## Key ideas`, `## Sources`, and `## Related`. Concept and entity pages use the same set; it is the folder — not the headings — that says which kind a page is.
+- Every `## Sources` entry must link — as a relative Markdown link — to a record in `wiki/sources/` or to another published page.
+- Use relative Markdown links for every link between wiki files.
+- Only add new material or make small corrections. Never overwrite a person's material unless they explicitly ask.
+- Treat `wiki/index.md` as the one file that is updated last: add pages to it one at a time, so two ingests running at once do not collide.
 
 ### Fidelity and aggregation
 
-Source records are the **faithful evidence layer**, not a summary of the input. Abstraction happens on the concept/entity pages built on top — never by discarding specifics at the source. This holds for every kind of input: an article, a report, a news digest, a document, or a dataset.
+A source record is a **faithful record of the input**, not a summary of it. The summarizing and simplifying happens later, on the concept/entity pages built on top — never by throwing away details in the source record itself. This is true for every kind of input: an article, a report, a news digest, a document, or a dataset.
 
-- **Decompose before you summarize.** Break each approved input into its distinct substantive claims *first*, and record each as its own bullet under a source record's `## What it asserts`, preserving the specifics that make it answerable — names, dates, quantities, and attribution — and its status (reported, rumored, confirmed, or established fact). Exclude non-substantive boilerplate: ads, navigation, markup, tracking, decorative captions.
-- **No material loss.** Any fact a reader could reasonably query must be recoverable from a source record. Reducing a multi-item input to topic labels ("covers hardware rumors, pricing, and litigation") produces a table of contents, not evidence, and is a defect.
-- **Match granularity to the input.** An input of N distinct items yields N claim clusters, not one. Record the input's scale and shape in the source record's `## Origin` (e.g. "a 17-story news digest", "a 200-row dataset") so that coverage is visible to a reader — and to linting, which cannot see the original input.
-- **Aggregations never become one catch-all page.** When an input bundles many distinct items (a news digest, a feed, a multi-finding report, a dataset), it becomes one source record capturing *all* items, plus a separate concept or entity page for each item substantial enough to fill the page schema. Lesser items remain citable as claims in the source record — do not manufacture thin stub pages, and do not create a single page whose `## Key ideas` is a list of unrelated topics.
+- **Break it apart before you summarize.** *First* split each approved input into its separate, meaningful claims, and record each as its own bullet under a source record's `## What it asserts`, keeping the specifics that make a claim answerable — names, dates, quantities, and who said it — and its status (reported, rumored, confirmed, or established fact). Leave out filler: ads, navigation, markup, tracking, decorative captions.
+- **Lose nothing important.** Any fact a reader could reasonably ask about must be recoverable from a source record. Boiling a multi-item input down to topic labels ("covers hardware rumors, pricing, and litigation") produces a table of contents, not evidence, and is a defect.
+- **Match the level of detail to the input.** An input of N separate items yields N groups of claims, not one. Record the input's size and shape in the source record's `## Origin` (e.g. "a 17-story news digest", "a 200-row dataset") so that coverage is visible to a reader — and to linting, which cannot see the original input.
+- **A bundled input never becomes one catch-all page.** When an input bundles many separate items (a news digest, a feed, a multi-finding report, a dataset), it becomes one source record capturing *all* items, plus a separate concept or entity page for each item substantial enough to fill the page schema. Lesser items stay citable as claims in the source record — do not manufacture thin stub pages, and do not create a single page whose `## Key ideas` is a list of unrelated topics.
 
 ## Agent roles
 
-Each role is a project-scoped Skill in `.agents/skills/`. Run the smallest number that completes the task; when work is parallelizable, run at most these three independent roles. Each skill sets `allow_implicit_invocation: false`, so a role runs only when explicitly invoked.
+Each role is a project-scoped Skill in `.agents/skills/`. Run the fewest that complete the task; when work can run in parallel, run at most these three independent roles. Each skill sets `allow_implicit_invocation: false`, so a role runs only when explicitly invoked.
 
 | Role | Skill | Recommended profile | May write | Must not do |
 | --- | --- | --- | --- | --- |
@@ -60,15 +62,20 @@ Do not run two agents against the same page. Complete ingestion before linting t
 
 ## Delegation (subagents)
 
-These three roles are also defined as Codex subagents in `.codex/agents/` and may be run under a single orchestrating session.
+These three roles are also defined as Codex subagents in `.codex/agents/`, so one orchestrating session can run them all.
 
-- When a task spans more than one role (e.g. "ingest this note, lint it, then answer a question"), the orchestrator should delegate each role to its subagent — `wiki-ingest`, `wiki-lint`, `wiki-query` — rather than doing the work inline.
-- Respect ordering: ingestion must finish before linting the same page, and linting should pass before that page is queried. Only genuinely independent work (different pages) may run in parallel.
+- Hand wiki work to the matching role instead of doing it yourself — even when the request needs only one role:
+    - A question to answer from the wiki → `wiki-query`. Do not answer wiki questions yourself. `wiki-query` is the only worker locked to read-only and to the wiki alone, and you give up that safeguard if you answer directly.
+    - A request to add, update, ingest, or process material → `wiki-ingest`. It finds its own approved input, so hand it off even when nothing is attached to the message — do not stall to ask for a paste.
+    - A request to check or audit the wiki → `wiki-lint`.
+- What to do when the wiki has no answer: when `wiki-query` replies `Not found in the local wiki.`, pass that reply on as-is first — do not quietly replace it with outside knowledge. After that, the main session (only the main session, never a role) may judge whether the question can be answered from general knowledge or current information. If it can, the main session may say so and offer such an answer — but it must not browse the web or bring in outside facts until the user explicitly agrees, and it must label any such answer as coming from outside the wiki, not from it.
+- When a task spans more than one role (e.g. "ingest this note, lint it, then answer a question"), the orchestrator should hand each role to its subagent — `wiki-ingest`, `wiki-lint`, `wiki-query` — rather than doing the work inline.
+- Keep the order: ingestion must finish before linting the same page, and linting should pass before that page is queried. Only genuinely independent work (different pages) may run in parallel.
 - Each subagent inherits the global no-network sandbox. `wiki-lint` and `wiki-query` additionally run read-only and must not write. Never delegate two writing subagents onto the same article.
 - Keep delegation one level deep; a subagent must not spawn further subagents.
 
 ## Required handoff
 
-- Ingestion reports changed paths, source provenance recorded in `wiki/sources/`, and unresolved gaps. Logs may be written to `reports/`.
-- Linting reports findings with paths and headings, separating blocking from advisory findings.
-- Query reports citations for every factual claim and explicitly identifies unsupported portions.
+- Ingestion reports which files changed, the source provenance recorded in `wiki/sources/`, and any unresolved gaps. Logs may be written to `reports/`.
+- Linting reports its findings with paths and headings, separating blocking findings from advisory ones.
+- Query reports a citation for every factual claim and clearly points out any part the wiki does not support.
