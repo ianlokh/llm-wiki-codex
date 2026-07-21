@@ -12,17 +12,21 @@ network_access = false
 
 # ── Project-scoped skills, explicitly registered (Requirement 1) ──────────
 # Skills in .agents/skills/ are auto-discovered by location; these entries pin
-# them ON. Adjust the absolute paths if you clone the repo elsewhere.
+# them ON. Set each path to YOUR clone location before merging this file into
+# ~/.codex/config.toml:
+#   macOS / Linux : /Users/you/llm-wiki-codex/.agents/skills/<role>/SKILL.md
+#   Windows       : C:/Users/you/llm-wiki-codex/.agents/skills/<role>/SKILL.md
+# (On Windows use forward slashes — in TOML a backslash is an escape character.)
 [[skills.config]]
-path = "/Users/ianlo/Documents/Development/llm-wiki-codex/.agents/skills/wiki-ingest/SKILL.md"
+path = "/ABSOLUTE/PATH/TO/llm-wiki-codex/.agents/skills/wiki-ingest/SKILL.md"
 enabled = true
 
 [[skills.config]]
-path = "/Users/ianlo/Documents/Development/llm-wiki-codex/.agents/skills/wiki-lint/SKILL.md"
+path = "/ABSOLUTE/PATH/TO/llm-wiki-codex/.agents/skills/wiki-lint/SKILL.md"
 enabled = true
 
 [[skills.config]]
-path = "/Users/ianlo/Documents/Development/llm-wiki-codex/.agents/skills/wiki-query/SKILL.md"
+path = "/ABSOLUTE/PATH/TO/llm-wiki-codex/.agents/skills/wiki-query/SKILL.md"
 enabled = true
 
 # ── Subagents / one-session orchestration (Requirement 4, subagent model) ──

@@ -6,5 +6,10 @@ developer_instructions = "Follow .agents/skills/wiki-lint/SKILL.md exactly. Insp
 sandbox_mode = "read-only"
 
 [[skills.config]]
-path = "/Users/ianlo/Documents/Development/llm-wiki-codex/.agents/skills/wiki-lint/SKILL.md"
+# Absolute path to this repo's skill file on YOUR machine. Codex reads this
+# from your clone location, so update it after cloning:
+#   macOS / Linux : /Users/you/llm-wiki-codex/.agents/skills/wiki-lint/SKILL.md
+#   Windows       : C:/Users/you/llm-wiki-codex/.agents/skills/wiki-lint/SKILL.md
+# (On Windows use forward slashes — in TOML a backslash is an escape character.)
+path = "/ABSOLUTE/PATH/TO/llm-wiki-codex/.agents/skills/wiki-lint/SKILL.md"
 enabled = true

@@ -1,6 +1,9 @@
 # macOS metadata
 .DS_Store
 
+# R session history (created if the folder is opened in R/RStudio)
+.Rhistory
+
 # Codex-managed system skills (auto-provisioned into the workspace, not project content)
 skills/.system/
 
