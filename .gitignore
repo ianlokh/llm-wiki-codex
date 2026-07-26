@@ -1,11 +1,46 @@
 # macOS metadata
 .DS_Store
 
+# R session history (created if the folder is opened in R/RStudio)
+.Rhistory
+
 # Codex-managed system skills (auto-provisioned into the workspace, not project content)
 skills/.system/
 
 # Serena tooling state
 .serena/
 
+# Personal Claude Code settings (machine-specific, never shared)
+.claude/settings.local.json
+
 # Obsidian workspace config (app state, not wiki evidence)
 .obsidian/
+
+# ============================================================================
+# ⚠️  IS THIS YOUR OWN KNOWLEDGE BASE? READ THIS FIRST.
+#
+# The rules below exist so the TEMPLATE repository ships empty. They tell git
+# to NEVER save your wiki pages, source records, or inbox files.
+#
+# If you downloaded this repo to build YOUR OWN second brain and you back it
+# up to GitHub, DELETE everything from here to "END MAKE-IT-YOURS BLOCK".
+# Otherwise your pages will be silently left out of every backup.
+#
+# (See GETTING-STARTED.md, step "Make it yours".)
+# ============================================================================
+
+# Raw inbox inputs (keep the README and the worked example)
+inbox/*.md
+!inbox/README.md
+!inbox/example-attention-article.md
+
+# Ingestion run reports (keep the README)
+reports/ingest-*.md
+
+# Generated wiki pages and source records
+wiki/concepts/*.md
+wiki/entities/*.md
+wiki/sources/*.md
+
+# ============================ END MAKE-IT-YOURS BLOCK =======================
+.claude/settings.json

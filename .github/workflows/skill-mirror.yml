@@ -1,0 +1,76 @@
+name: skill-mirror
+
+# Guards one repository invariant: each Claude-side skill mirror under
+# .claude/skills/<role>/SKILL.md must be a real file that is byte-identical to
+# its canonical source under .agents/skills/<role>/SKILL.md.
+#
+# Why copies and not a symlink: Codex auto-discovers skills in .agents/skills/,
+# but Claude Code only reads skills under .claude/skills/, and git symlinks are
+# not portable to Windows checkouts. So the canonical lives in .agents/skills/
+# and .claude/skills/ holds committed real-file copies. This check keeps the two
+# in sync and blocks any accidental drift or symlink regression.
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check-skill-mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify .claude/skills mirrors are identical to .agents/skills canonicals
+        run: |
+          set -u
+          fail=0
+          for role in wiki-ingest wiki-lint wiki-query; do
+            canonical=".agents/skills/${role}/SKILL.md"
+            mirror=".claude/skills/${role}/SKILL.md"
+
+            if [ ! -f "$canonical" ]; then
+              echo "::error file=${canonical}::Canonical skill is missing: ${canonical}"
+              fail=1
+              continue
+            fi
+            if [ ! -f "$mirror" ]; then
+              echo "::error file=${mirror}::Claude skill mirror is missing: ${mirror}"
+              echo "Fix: copy the canonical file into place, then commit:"
+              echo "  cp '${canonical}' '${mirror}'"
+              fail=1
+              continue
+            fi
+            if [ -L "$mirror" ]; then
+              echo "::error file=${mirror}::${mirror} is a symlink; it must be a real committed file (symlinks break on Windows checkouts)."
+              echo "Fix: rm '${mirror}' && cp '${canonical}' '${mirror}' && git add '${mirror}'"
+              fail=1
+              continue
+            fi
+
+            # Primary check: the two files must be byte-for-byte identical.
+            if ! cmp -s "$canonical" "$mirror"; then
+              echo "::error file=${mirror}::Skill mirror out of sync: ${mirror} differs from canonical ${canonical}"
+              echo "The source of truth is ${canonical}. Copy it over the mirror and commit:"
+              echo "  macOS / Linux : cp '${canonical}' '${mirror}'"
+              echo "  Windows (PS)  : Copy-Item '${canonical}' '${mirror}' -Force"
+              echo "  then          : git add '${mirror}' && git commit"
+              echo "----- diff (canonical vs mirror) -----"
+              diff "$canonical" "$mirror" || true
+              echo "--------------------------------------"
+              fail=1
+            fi
+          done
+
+          if [ "$fail" -ne 0 ]; then
+            echo ""
+            echo "=================================================================="
+            echo " Claude skill mirror check FAILED."
+            echo " Source of truth : .agents/skills/<role>/SKILL.md   (edit here)"
+            echo " Mirror to update: .claude/skills/<role>/SKILL.md   (copy of above)"
+            echo " Copy the canonical over the mirror for each role listed above,"
+            echo " commit the mirror, and push again."
+            echo "=================================================================="
+            exit 1
+          fi
+
+          echo "All skill mirrors are byte-identical to their canonical sources."

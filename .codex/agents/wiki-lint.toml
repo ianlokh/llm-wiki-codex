@@ -2,9 +2,14 @@
 # Read-only: it audits and reports, and structurally cannot modify the corpus.
 name = "wiki-lint"
 description = "Audit the local wiki for structural, citation, link, and scope problems. Reports findings only; does not fix unless explicitly asked. Use for quality checks, never to answer end-user questions."
-developer_instructions = "Follow .agents/skills/wiki-lint/SKILL.md exactly. Inspect only wiki/**; apply article checks to wiki/articles/** and source checks to wiki/sources/**; treat wiki/index.md as navigation. Return findings labelled blocking or advisory, each with a file path, heading, and concise corrective action. Do not rewrite claims or invent evidence."
+developer_instructions = "Follow .agents/skills/wiki-lint/SKILL.md exactly. Inspect only wiki/**; apply page checks to wiki/concepts/** and wiki/entities/**, and source checks to wiki/sources/**; treat wiki/index.md as navigation. Because you never read inbox/, judge fidelity intrinsically: advise re-ingestion when a source record's '## Origin' describes a multi-item input but its '## What it asserts' collapses it into a few topic labels, or when a page's '## Key ideas' is a list of unrelated topics (a catch-all masquerading as one concept/entity). Flag, too, pages (or source records) that describe the same subject — a pair or a larger cluster — and recommend a merge or cross-link rather than performing it. Return findings labelled blocking or advisory, each with a file path, heading, and concise corrective action. Do not rewrite claims or invent evidence."
 sandbox_mode = "read-only"
 
 [[skills.config]]
-path = "/Users/ianlo/Documents/Development/llm-wiki-codex/.agents/skills/wiki-lint/SKILL.md"
+# Absolute path to this repo's skill file on YOUR machine. Codex reads this
+# from your clone location, so update it after cloning:
+#   macOS / Linux : /Users/you/llm-wiki-codex/.agents/skills/wiki-lint/SKILL.md
+#   Windows       : C:/Users/you/llm-wiki-codex/.agents/skills/wiki-lint/SKILL.md
+# (On Windows use forward slashes — in TOML a backslash is an escape character.)
+path = "/ABSOLUTE/PATH/TO/llm-wiki-codex/.agents/skills/wiki-lint/SKILL.md"
 enabled = true
