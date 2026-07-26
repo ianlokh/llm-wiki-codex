@@ -42,5 +42,9 @@ wiki/concepts/*.md
 wiki/entities/*.md
 wiki/sources/*.md
 
+# The Map of Content lists your pages, so it is personal too (and would ship
+# as dead links if tracked while the pages above are ignored)
+wiki/index.md
+
 # ============================ END MAKE-IT-YOURS BLOCK =======================
 .claude/settings.json
