@@ -4,7 +4,7 @@ A local-first, **Markdown-only** knowledge base you clone and point at any subje
 
 It runs identically under **two AI runtimes** — Codex (`AGENTS.md`) and Claude Code (`CLAUDE.md`) — and the pages are plain YAML-frontmatter Markdown, so the same vault opens cleanly in **Obsidian**, Claude Desktop, or the Codex/ChatGPT desktop app.
 
-> **New here, or not a developer?** Start with **[GETTING-STARTED.md](GETTING-STARTED.md)** — a plain-language walkthrough from download to your first cited answer, including a worked example. Common questions are answered in **[FAQ.md](FAQ.md)**.
+> **New here, or not a developer?** Start with **[GETTING-STARTED.md](GETTING-STARTED.md)** — a plain-language walkthrough from download to your first cited answer, including a worked example. Common questions are answered in **[FAQ.md](FAQ.md)**, and any unfamiliar term is defined in one line in **[GLOSSARY.md](GLOSSARY.md)**.
 
 Two files carry everything you customize:
 
@@ -96,8 +96,8 @@ Two runtimes read the **same** corpus and roles. Three tool-gated roles do the w
 
 Codex loads config from `$CODEX_HOME` (default `~/.codex/`), not from the repo, so `codex/` holds templates you apply once:
 
-1. **Enforce closed-world + register skills.** Merge `codex/config.sample.toml` into `~/.codex/config.toml` (sets `sandbox_workspace_write.network_access = false` and enables the three skills).
-2. **Install per-role profiles.** Copy each file in `codex/profiles/` into `$CODEX_HOME`, e.g. `cp codex/profiles/wiki-query.config.toml ~/.codex/wiki-query.config.toml`.
+1. **Enforce closed-world + register skills.** Merge `codex/config.sample.toml` into `~/.codex/config.toml` (sets `sandbox_workspace_write.network_access = false` and enables the three skills). Set each skill `path` to your own clone location first — use forward slashes on Windows (`C:/Users/you/...`).
+2. **Install per-role profiles.** Copy each file in `codex/profiles/` into `$CODEX_HOME` — e.g. macOS/Linux `cp codex/profiles/wiki-query.config.toml ~/.codex/wiki-query.config.toml`, or Windows PowerShell `Copy-Item codex/profiles/wiki-query.config.toml $HOME/.codex/wiki-query.config.toml`.
 
 `AGENTS.md` and `.agents/skills/` are auto-loaded. Then:
 
@@ -111,7 +111,7 @@ The query/lint profiles use a `read-only` sandbox; ingest allows writes but keep
 
 Open the folder in Claude Code. It reads `CLAUDE.md`, and the three subagents in `.claude/agents/` are **tool-gated** (ingest gets write tools, lint/query are read-only; none get web tools). Invoke a role with the Task tool, or run its skill from `.claude/skills/`.
 
-**Skill mirror invariant:** the canonical skills live in `.agents/skills/<role>/SKILL.md`; the `.claude/skills/<role>/SKILL.md` copies must stay **byte-identical**. Edit the canonical, then `cp` it over the mirror. `.github/workflows/skill-mirror.yml` enforces this on every push/PR.
+**Skill mirror invariant:** the canonical skills live in `.agents/skills/<role>/SKILL.md`; the `.claude/skills/<role>/SKILL.md` copies must stay **byte-identical**. Edit the canonical, then copy it over the mirror — macOS/Linux `cp .agents/skills/<role>/SKILL.md .claude/skills/<role>/SKILL.md`, Windows PowerShell `Copy-Item .agents/skills/<role>/SKILL.md .claude/skills/<role>/SKILL.md -Force`. `.github/workflows/skill-mirror.yml` enforces this on every push/PR.
 
 ---
 
@@ -126,6 +126,7 @@ Place approved Markdown in `inbox/` → **`wiki-ingest`** converts it into a con
 ```
 GETTING-STARTED.md     Plain-language quickstart for non-technical users
 FAQ.md                 Common questions and answers
+GLOSSARY.md            Plain one-line definition of every term used here
 LICENSE                MIT license
 AGENTS.md              Universal operating contract — Codex
 CLAUDE.md              Universal operating contract — Claude Code (mirror of AGENTS.md)

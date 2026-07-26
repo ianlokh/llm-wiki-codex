@@ -1,5 +1,8 @@
 # Frequently asked questions
 
+*Unsure what a word means? Every term is defined in one line in
+[GLOSSARY.md](GLOSSARY.md).*
+
 ### Why won't it answer from the internet? It clearly knows more than my wiki.
 
 By design. This wiki is **closed-world**: answers come only from pages you

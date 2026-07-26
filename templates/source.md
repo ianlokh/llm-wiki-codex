@@ -4,7 +4,7 @@ title:                      # human-readable, matches the H1 below
 type: source                # fixed for this template (= folder)
 origin_kind:                # article|digest|feed|report|dataset|document — DOMAIN.md
 source_format:              # markdown|pdf|html|url|text
-tags: []                    # DOMAIN.md tag registry (open axis; reuse-first)
+tags: []                    # from the DOMAIN.md tag list (open-ended; reuse first)
 item_count:                 # integer: distinct substantive items in the input
 claim_count:                # integer: bullets under ## What it asserts
 summary:                    # one-line abstract of the source (optional)
@@ -16,7 +16,7 @@ ingested_by: wiki-ingest
 
 ## Origin
 
-Describe exactly what this material is and where it came from within the approved input (e.g. the inbox filename, or "supplied directly in task on 2026-07-16"). Do not record a live URL as something to fetch. State the input's scale and shape (e.g. "a single article", "a 17-story news digest", "a 200-row dataset") so coverage is visible to linting, which cannot read the original input.
+Describe exactly what this material is and where it came from within the approved input (e.g. the inbox filename, or "supplied directly in task on 2026-07-16"). Do not record a live URL as something to fetch. State the input's size and shape (e.g. "a single article", "a 17-story news digest", "a 200-row dataset") so a reader — and linting, which cannot read the original input — can see how much should be covered.
 
 ## Ingested
 
@@ -25,8 +25,8 @@ Describe exactly what this material is and where it came from within the approve
 
 ## What it asserts
 
-- List the specific, individually-citable claims this source supports — one bullet per distinct substantive item in the input, preserving names, dates, quantities, attribution, and status (reported/rumored/confirmed/fact). Articles cite these. Do not collapse a multi-item input into topic labels ("covers hardware rumors, pricing, and litigation"), and exclude non-substantive boilerplate (ads, navigation, markup).
+- List the specific claims this source supports, each one able to be cited on its own — one bullet per separate, meaningful item in the input, keeping names, dates, quantities, who said it, and status (reported/rumored/confirmed/fact). Pages cite these. Do not collapse a multi-item input into topic labels ("covers hardware rumors, pricing, and litigation"), and leave out filler (ads, navigation, markup).
 
 ## Limitations
 
-- Note gaps, uncertainty, or contradictions in the material so articles can qualify claims honestly.
+- Note gaps, uncertainty, or contradictions in the material so pages can qualify claims honestly.

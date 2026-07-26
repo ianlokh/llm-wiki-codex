@@ -1,0 +1,6 @@
+# Store text as LF in the repo; check out native line endings (CRLF on Windows).
+* text=auto
+
+# Pin the skill mirrors to LF everywhere so the byte-for-byte CI check (cmp) and the
+# Windows Copy-Item mirror step can never see a CRLF/LF mismatch.
+**/SKILL.md text eol=lf
